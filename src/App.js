@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import Home from './Pages/Home';
+import ReactDOM from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SingleEvent from './Pages/SingleEvent';
+import Profile from './Pages/Profile';
 
 function App() {
+
+  let all_relays = [
+    "wss://nostr-pub.wellorder.net",
+    //"wss://nostr-relay.untethr.me",
+    "wss://relay.damus.io",
+    "wss://nostr-verified.wellorder.net",
+    "wss://nostr.developer.li"
+  ];
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home relays={all_relays}/>}/>
+          <Route path="/users/:author" element={<Profile relays={all_relays} />} />
+          <Route path="/posts/:event_id" element={<SingleEvent relays={all_relays}/>}/>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
+
 }
 
 export default App;
