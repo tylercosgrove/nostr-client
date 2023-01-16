@@ -126,6 +126,26 @@ const Note = ({note, relays, meta}) => {
         error.target.src = 'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg'; 
     }
 
+    const getMentions = (input) => {
+        let match = input.match(/#\[(\d+)\]/);
+        if (match) {
+            const mention_pubkey = note.tags[parseInt(match[1])][1];
+            const words = input.split(/#\[\d+\]/);
+            const content = words.map((word) => {
+                if (word == "") {
+                  return <span id="other-user" onClick={() => {
+                    navigate('/users/' + mention_pubkey);
+                    navigate(0);
+                  }}>{mention_pubkey.substring(0,14)}...</span>;
+                }
+                return word;
+              });
+            return content;
+        } else {
+            return input;
+        }
+    }
+
 
     const getContent = () => {
         let imageRegex = /https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp)[^\s]*/gi;
@@ -133,7 +153,7 @@ const Note = ({note, relays, meta}) => {
         if(tempContent.length > 2000){
             return tempContent.substring(0,2000) + "...";
         }
-        return tempContent;
+        return getMentions(tempContent);
     }
 
     const getContentImage = () => {
