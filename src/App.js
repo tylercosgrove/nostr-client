@@ -12,7 +12,7 @@ function App() {
     "wss://relay.damus.io",
     "wss://nostr-verified.wellorder.net",
     "wss://relay.nostr.ch",
-    "wss://nostr.developer.li"
+    //"wss://nostr.developer.li"
   ];
  
   return (
