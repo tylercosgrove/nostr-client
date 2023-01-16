@@ -98,12 +98,12 @@ const Profile = ({relays}) => {
         if(metaData != null && metaData.name != null) {
             return <>
                     <Tooltip anchorId="profile-pubkey" content={copyMessage} place="top" className="profile-tooltip" classNameArrow="profile-tooltip-arrow"/>
-                    <span id="profile-pubkey" onClick={() => {
+                    <p id="profile-pubkey" onClick={() => {
                         navigator.clipboard.writeText(author);
                         setMessage("Copied!");
                     }} onMouseEnter={() => {
                         setMessage("Copy Pubkey");
-                    }}>{author.substring(0,64)}</span>
+                    }}>{author.substring(0,64)}</p>
                     </>;
         } else {
             return <></>;
@@ -138,7 +138,7 @@ const Profile = ({relays}) => {
         <div id="profile-container">
             <img id="profile-large-pic" src={getPicture()} alt="Image error" onError={replaceImage}/>
             <p>{getName()}</p>
-            <p>{getPubkey()}</p>
+            {getPubkey()}
             {getBio()}
         </div>
 

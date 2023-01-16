@@ -11,7 +11,8 @@ function App() {
     //"wss://nostr-relay.untethr.me",
     "wss://relay.damus.io",
     "wss://nostr-verified.wellorder.net",
-    "wss://nostr.developer.li"
+    "wss://relay.nostr.ch"
+    //"wss://nostr.developer.li"
   ];
  
   return (

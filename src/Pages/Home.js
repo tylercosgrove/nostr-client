@@ -7,19 +7,20 @@ import { useNavigate } from 'react-router-dom';
 const Home = ({relays}) => {
 
     const [notes, setNotes] = useState([]);
+    let hasLoadedNew = false;
     let all_notes = new Set();
-    const socketURL = "wss://nostr-pub.wellorder.net";
-    let navigate = useNavigate();
-
+    let notesPerLoad = 15;
     let sockets = [];
   
     useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
         relays.forEach(relay => {
             sockets.push(new WebSocket(relay));
             getNotes(sockets[sockets.length-1]);
         });
 
         return () => {
+          window.removeEventListener('scroll', handleScroll);
           for (let i = 0; i < sockets.length; i++) {
               sockets[i].close();
           }
@@ -28,7 +29,7 @@ const Home = ({relays}) => {
 
     const getNotes = (ws) => {
         ws.onopen = (event) => {
-            const filter = {"kinds":[1], "limit":8};
+            const filter = {"kinds":[1], "limit":notesPerLoad};
             const subscription = ["REQ", "my-sub", filter];
             ws.send(JSON.stringify(subscription));
         };
@@ -36,9 +37,17 @@ const Home = ({relays}) => {
         ws.onmessage = function (event) {
           var [ type, subId, message ] = JSON.parse( event.data );
 
-          if(message != null && !all_notes.has(message.id)) {
+          if(message != null && !all_notes.has(message.id) && message.pubkey != "395b2f660a4aeb573d319e39ba93a2cd53f62e641638fe7bc8cdb24db1f13995") {
+            if(all_notes.size < notesPerLoad) {
               all_notes.add(message.id);
               setNotes(notes => [...notes, { note:message, relays:relays, id:message.id}]);
+            } else {
+              for (let i = 0; i < sockets.length; i++) {
+                sockets[i].close();
+                return;
+              }
+            }
+              
           }
         };
   
@@ -46,6 +55,30 @@ const Home = ({relays}) => {
         ws.close();
       };
     }
+
+
+    const handleScroll = () => {
+      const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
+      if (scrollHeight - clientHeight - scrollTop <= 30 && !hasLoadedNew) {
+        console.log('Scrolled to bottom');
+        hasLoadedNew = true;
+        for (let i = 0; i < sockets.length; i++) {
+          sockets[i].close();
+        }
+        sockets = [];
+        notesPerLoad += 15;
+        relays.forEach(relay => {
+          sockets.push(new WebSocket(relay));
+          getNotes(sockets[sockets.length-1]);
+        });
+        setTimeout(() => {
+          hasLoadedNew = false;
+        }, 5000);
+        //console.log('Scrolled to bottom');
+      }
+    };
+
+
   
     const getSorted = () => {
         return notes.sort(function(a, b) {
@@ -60,7 +93,7 @@ const Home = ({relays}) => {
       <>
         <div id="header">
           <h1>nostr client</h1>
-          <p>public chat</p>
+          <p>public chat: {notes.length}</p>
         </div>
   
         <div id="content">{noteComponents}</div>
