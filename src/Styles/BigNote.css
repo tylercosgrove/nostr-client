@@ -14,6 +14,10 @@
     cursor: pointer;
 }
 
+#author-big:hover {
+    text-decoration: underline;
+}
+
 #pubkey-big {
     font-size: 15px;
     color: gray;

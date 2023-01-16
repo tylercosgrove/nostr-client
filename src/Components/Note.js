@@ -65,13 +65,7 @@ const Note = ({note, relays, meta}) => {
             ws.onerror = (error) => {
                 ws.close();
                 error.preventDefault();
-                //console.log(error);
             }
-              
-
-            /*return () => {
-                ws.close();
-            }*/
             
         } catch (error) {
         console.error(error);
@@ -83,7 +77,8 @@ const Note = ({note, relays, meta}) => {
     const getReplyTo = () => {
         for(const tag of note.tags) {
             if(tag[0]==='e'){
-              return <p id="replying">replying to <span id="other-user" onClick={() => {
+              return <p id="replying">replying to <span id="other-user" onClick={(event) => {
+                    event.stopPropagation();
                   navigate('/posts/' + tag[1]);
               }} >{tag[1].substring(0,14)}...</span></p>;
             }
@@ -93,13 +88,20 @@ const Note = ({note, relays, meta}) => {
 
     const getName = () => {
         if(metaData != null && metaData.name != null) {
-            return <><span id="author" onClick={()=> {
+            return <><span id="author" onClick={(event)=> {
+                event.stopPropagation();
                 navigate('/users/' + note.pubkey);
-            }}>{metaData.name}</span> <span id="pubkey">{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={() => {navigator.clipboard.writeText(note.pubkey)}}/> <span id="timestamp">∙ {getTime()}</span></>;
+            }}>{metaData.name}</span> <span id="pubkey">{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={(event) => {
+                event.stopPropagation();
+                navigator.clipboard.writeText(note.pubkey)
+            }}/> <span id="timestamp">∙ {getTime()}</span></>;
         } else {
             return <><span id="author" onClick={()=> {
                 navigate('/users/' + note.pubkey);
-            }}>{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={() => {navigator.clipboard.writeText(note.pubkey)}}/> <span id="timestamp">∙ {getTime()}</span></>;
+            }}>{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={(event) => {
+                event.stopPropagation();
+                navigator.clipboard.writeText(note.pubkey)
+            }}/> <span id="timestamp">∙ {getTime()}</span></>;
         }
     }
 
@@ -168,15 +170,15 @@ const Note = ({note, relays, meta}) => {
 
     return (
         <>
-            <div className="message-container">
+            <div className="message-container"   onClick={()=> {
+                navigate('/posts/' + note.id);
+                navigate(0);
+            }}>
                 <img id="profile-pic" src={getPicture(metaData)} alt="Image error" onError={replaceImage} />
                 <div>
                     <p>{getName()}</p>
                     {getReplyTo()}
-                    <p id="message-content"  onClick={()=> {
-                navigate('/posts/' + note.id);
-                navigate(0);
-            }}>{getContent()}</p>
+                    <p id="message-content">{getContent()}</p>
             {getContentImage()}
                 </div>
             </div>

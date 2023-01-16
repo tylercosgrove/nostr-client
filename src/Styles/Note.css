@@ -25,6 +25,11 @@
 #other-user {
   color:orange;
   cursor: pointer;
+  z-index: 2;
+}
+
+#other-user:hover {
+  text-decoration: underline;
 }
 
 #copy-button {
@@ -57,10 +62,12 @@
   
 #author {
     font-weight: bold;
+    z-index: 2;
   }
   
 #author:hover {
     cursor: pointer;
+    text-decoration: underline;
 }
   
 #pubkey {
