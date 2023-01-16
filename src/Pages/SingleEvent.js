@@ -24,7 +24,6 @@ const SingleEvent = ({relays}) => {
         sockets.push(new WebSocket(relay));
           getNote(relay);
           getReplies(sockets[sockets.length-1]);
-          //getReplies(relay);
       });
 
       return () => {
@@ -38,7 +37,6 @@ const SingleEvent = ({relays}) => {
     const handleScroll = () => {
       const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
       if (scrollHeight - clientHeight - scrollTop <= 30 && !hasLoadedNew) {
-        console.log('Scrolled to bottom');
         hasLoadedNew = true;
         for (let i = 0; i < sockets.length; i++) {
           sockets[i].close();
@@ -121,7 +119,6 @@ const SingleEvent = ({relays}) => {
                 navigate("/");
             }}>Home</p>
         </div>
-        {replies.length}
 
         <div id="content">{note}</div>
         <div id="content">{replyComponents}</div>

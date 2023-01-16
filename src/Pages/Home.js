@@ -60,7 +60,6 @@ const Home = ({relays}) => {
     const handleScroll = () => {
       const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
       if (scrollHeight - clientHeight - scrollTop <= 30 && !hasLoadedNew) {
-        console.log('Scrolled to bottom');
         hasLoadedNew = true;
         for (let i = 0; i < sockets.length; i++) {
           sockets[i].close();
@@ -74,7 +73,6 @@ const Home = ({relays}) => {
         setTimeout(() => {
           hasLoadedNew = false;
         }, 5000);
-        //console.log('Scrolled to bottom');
       }
     };
 
