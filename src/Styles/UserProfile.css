@@ -1,0 +1,82 @@
+.gray {
+    color: gray;
+}
+
+#login-form {
+    display:flex;
+    flex-direction: column;
+}
+
+#generate-key {
+    font-size: small;
+    border:none;
+    background-color: orange;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    width: fit-content;
+    margin-top: 5px;
+}
+
+#generate-key:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#login-form > label {
+    margin-top: 30px;
+    font-size: small;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+#login-form > input[type=text] {
+    border: none;
+    font-size: large;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #ebebeb;
+}
+
+#login-form > input[type=submit] {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 15px;
+    width: 100px;
+    margin: auto;
+    margin-top: 30px;
+    border-radius: 8px;
+}
+
+
+
+#login-form > input[type=submit]:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#user-meta-container {
+    background-color: aliceblue;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+#user-name {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#user-pic {
+    background-color: white;
+    height:125px;
+    width:125px;
+    object-fit: cover;
+    border-radius:50%;
+    margin-right: 10px;
+}
+
+#user-about {
+    text-align: left;
+}

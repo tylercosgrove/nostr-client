@@ -77,11 +77,14 @@ const BigNote = ({note, relays}) => {
     }
 
     const getMentions = (input) => {
+        input += " ";
         let match = input.match(/#\[(\d+)\]/);
         if (match) {
             const mention_pubkey = note.tags[parseInt(match[1])][1];
             const words = input.split(/#\[\d+\]/);
+            console.log(words);
             const content = words.map((word) => {
+                
                 if (word == "") {
                   return <span id="other-user" onClick={() => {
                     navigate('/users/' + mention_pubkey);
@@ -119,7 +122,7 @@ const BigNote = ({note, relays}) => {
             if(tag[0]==='e'){
               return <p id="replying-big">replying to <span id="other-user" onClick={() => {
                   navigate('/posts/' + tag[1]);
-                  navigate(0);
+                  //navigate(0);
               }} >{tag[1].substring(0,14)}...</span></p>;
             }
         }
@@ -136,7 +139,7 @@ const BigNote = ({note, relays}) => {
                 {getReplyTo()}
                 <p id="message-content">{getContent()}</p>
                 {getContentImage()}
-                <p id="timestamp">{getTime()}</p>
+                <p class="gray small-text left">{getTime()}</p>
             </div>
         </>
     );

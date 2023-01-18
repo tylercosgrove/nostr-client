@@ -1,12 +1,15 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import '../Styles/App.css';
 import { useParams, useNavigate } from "react-router-dom";
 import BigNote from "../Components/BigNote";
 import Note from "../Components/Note";
 import { flushSync } from "react-dom";
+import { RelayContext } from "../Extras/UserContext";
+import CustomHeader from "../Components/CustomHeader";
 
-const SingleEvent = ({relays}) => {
+const SingleEvent = () => {
 
+    const {relays} = useContext(RelayContext);
     const [note, setNote] = useState();
     let navigate = useNavigate();
     const socketURL = "wss://nostr-pub.wellorder.net";
@@ -113,12 +116,7 @@ const SingleEvent = ({relays}) => {
 
     return (
         <>
-        <div id="header">
-            
-            <p id="link" onClick={()=>{
-                navigate("/");
-            }}>Home</p>
-        </div>
+        <CustomHeader title={<h1>Post</h1>}/>
 
         <div id="content">{note}</div>
         <div id="content">{replyComponents}</div>

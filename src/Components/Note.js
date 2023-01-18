@@ -77,7 +77,7 @@ const Note = ({note, relays, meta}) => {
     const getReplyTo = () => {
         for(const tag of note.tags) {
             if(tag[0]==='e'){
-              return <p id="replying">replying to <span id="other-user" onClick={(event) => {
+              return <p class="small-text gray" id="replying">replying to <span class="link highlight" onClick={(event) => {
                     event.stopPropagation();
                   navigate('/posts/' + tag[1]);
               }} >{tag[1].substring(0,14)}...</span></p>;
@@ -88,20 +88,20 @@ const Note = ({note, relays, meta}) => {
 
     const getName = () => {
         if(metaData != null && metaData.name != null) {
-            return <><span id="author" onClick={(event)=> {
+            return <><span class="medium-text bold link" onClick={(event)=> {
                 event.stopPropagation();
                 navigate('/users/' + note.pubkey);
-            }}>{metaData.name}</span> <span id="pubkey">{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={(event) => {
+            }}>{metaData.name}</span>  <span class="small-text gray">{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={(event) => {
                 event.stopPropagation();
                 navigator.clipboard.writeText(note.pubkey)
-            }}/> <span id="timestamp">∙ {getTime()}</span></>;
+            }}/> <span class="small-text gray">∙ {getTime()}</span></>;
         } else {
-            return <><span id="author" onClick={()=> {
+            return <><span class="medium-text bold link" onClick={()=> {
                 navigate('/users/' + note.pubkey);
             }}>{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={(event) => {
                 event.stopPropagation();
                 navigator.clipboard.writeText(note.pubkey)
-            }}/> <span id="timestamp">∙ {getTime()}</span></>;
+            }}/> <span class="small-text gray">∙ {getTime()}</span></>;
         }
     }
 
@@ -129,15 +129,18 @@ const Note = ({note, relays, meta}) => {
     }
 
     const getMentions = (input) => {
+        input += " ";
         let match = input.match(/#\[(\d+)\]/);
         if (match) {
-            const mention_pubkey = note.tags[parseInt(match[1])][1];
+            const mention_pubkey = note.tags[parseInt(match[1])] ? note.tags[parseInt(match[1])][1] : "";
             const words = input.split(/#\[\d+\]/);
             const content = words.map((word) => {
                 if (word == "") {
-                  return <span id="other-user" onClick={() => {
+                  return <span key={mention_pubkey} class="highlight link" onClick={(event) => {
+                    //localStorage.setItem('context', JSON.stringify(context));
+                    event.stopPropagation();
                     navigate('/users/' + mention_pubkey);
-                    navigate(0);
+                    //navigate(0);
                   }}>{mention_pubkey.substring(0,14)}...</span>;
                 }
                 return word;
@@ -170,15 +173,15 @@ const Note = ({note, relays, meta}) => {
 
     return (
         <>
-            <div className="message-container"   onClick={()=> {
+            <div class="card" id="message-container"  onClick={()=> {
                 navigate('/posts/' + note.id);
-                navigate(0);
+                //navigate(0);
             }}>
-                <img id="profile-pic" src={getPicture(metaData)} alt="Image error" onError={replaceImage} />
+                <img id="note-pic" class="profile-pic small-pic" src={getPicture(metaData)} alt="Image error" onError={replaceImage} />
                 <div>
                     <p>{getName()}</p>
                     {getReplyTo()}
-                    <p id="message-content">{getContent()}</p>
+                    <p class="wrap">{getContent()}</p>
             {getContentImage()}
                 </div>
             </div>

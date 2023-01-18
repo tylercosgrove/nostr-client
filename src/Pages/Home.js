@@ -1,16 +1,21 @@
 //import './App.css';
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import { BiCopy } from "react-icons/bi";
 import Note from '../Components/Note';
 import { useNavigate } from 'react-router-dom';
+import { RelayContext } from "../Extras/UserContext";
+import CustomHeader from "../Components/CustomHeader";
 
-const Home = ({relays}) => {
+const Home = () => {
 
+    const {relays} = useContext(RelayContext);
     const [notes, setNotes] = useState([]);
     let hasLoadedNew = false;
     let all_notes = new Set();
     let notesPerLoad = 15;
     let sockets = [];
+
+    let navigate = useNavigate();
   
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -89,10 +94,12 @@ const Home = ({relays}) => {
   
     return (
       <>
-        <div id="header">
-          <h1>nostr client</h1>
-          <p>public chat: {notes.length}</p>
-        </div>
+
+        <CustomHeader title={
+          <div>
+            <h1>nostr client</h1>
+            <p>public chat: {notes.length}</p>
+          </div>}/>
   
         <div id="content">{noteComponents}</div>
       </>

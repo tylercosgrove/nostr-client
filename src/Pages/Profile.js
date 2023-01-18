@@ -1,13 +1,16 @@
-import {useState, useEffect, React} from "react";
+import {useState, useEffect,useContext, React} from "react";
 import '../Styles/App.css';
 import { useParams, useNavigate } from "react-router-dom";
 import '../Styles/Profile.css';
 import Note from "../Components/Note";
 import { BiCopy } from "react-icons/bi";
 import { Tooltip } from 'react-tooltip';
+import { RelayContext } from "../Extras/UserContext";
+import CustomHeader from "../Components/CustomHeader";
 
-const Profile = ({relays}) => {
+const Profile = () => {
 
+    const {relays} = useContext(RelayContext);
     const [metaData,setMeta] = useState();
     let navigate = useNavigate();
     let all_notes = new Set();
@@ -128,12 +131,8 @@ const Profile = ({relays}) => {
 
     return (
         <>
-        <div id="header">
-            <h1>{(metaData != null && metaData.name != null) ? metaData.name : author.substring(0,14) + "..."}'s profile</h1>
-            <p id="link" onClick={()=>{
-                navigate("/");
-            }}>Home</p>
-        </div>
+
+        <CustomHeader title={<h1>{(metaData != null && metaData.name != null) ? metaData.name : author.substring(0,14) + "..."}'s profile</h1>}/>
 
         <div id="profile-container">
             <img id="profile-large-pic" src={getPicture()} alt="Image error" onError={replaceImage}/>

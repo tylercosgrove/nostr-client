@@ -1,0 +1,108 @@
+/* Orange buttons */
+.classic-button {
+    font-size: small;
+    border:none;
+    background-color: orange;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    width: fit-content;
+}
+
+.classic-button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+/* Circular profile pics */
+.profile-pic {
+    background-color: white;
+    object-fit: cover;
+    border-radius:50%;
+}
+
+.small-pic {
+    height: 50px;
+    width: 50px;
+}
+
+.medium-pic {
+    height:75px;
+    width:75px;
+}
+
+.large-pic {
+    height:100px;
+    width:100px;
+}
+
+.extra-large-pic {
+    height: 125px;
+    width: 125px;;
+}
+
+
+/* Lightblue card */
+.card {
+    background-color: aliceblue;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+
+/* text sizes */
+.small-text {
+    font-size: small;
+}
+
+.medium-text {
+    font-size: normal;
+}
+
+.large-text {
+    font-size: large;
+}
+
+.larger-text {
+    font-size: 20px;
+}
+
+.extra-large-text {
+    font-size: 30px;
+}
+
+
+/* Links */
+.link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Other */
+.gray {
+    color:gray;
+}
+
+.highlight {
+    color: orange;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.left {
+    text-align: left;
+}
+
+.wrap {
+    word-break: break-word;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+    -ms-word-break: break-word;
+    word-break: break-word;
+}
+
+

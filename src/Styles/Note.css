@@ -1,37 +1,3 @@
-#og-event {
-  position:absolute;
-  padding: 10px;
-  background-color: aliceblue;
-  border-radius: 15px;
-  z-index: 5;
-  max-width: 450px;
-  max-height: fit-content;
-  left:0;
-  right:0;
-  margin:0 auto;
-  margin-top:-50px;
-  display: flex;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
-#close-event {
-  color: gray;
-  cursor: pointer;
-  font-size: 20px;
-  flex-shrink: 0;
-  margin-left: auto;
-}
-  
-#other-user {
-  color:orange;
-  cursor: pointer;
-  z-index: 2;
-}
-
-#other-user:hover {
-  text-decoration: underline;
-}
-
 #copy-button {
   color: gray;
   padding-left: 5px;
@@ -40,61 +6,19 @@
   width: 15px;
 }
 
-#message-content {
-  word-break: break-word;
-  white-space: pre-line;
-  overflow-wrap: break-word;
-  -ms-word-break: break-word;
-  word-break: break-word;
-}
-
-.message-container{
+#message-container{
   position: relative;
   box-sizing:border-box;
-  background-color: aliceblue;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 15px;
   display: flex;
   width: 100%;
 }
 
-  
-#author {
-    font-weight: bold;
-    z-index: 2;
-  }
-  
-#author:hover {
-    cursor: pointer;
-    text-decoration: underline;
-}
-  
-#pubkey {
-  font-size: small;
-  color: gray;
-}
-#timestamp {
-  color:gray;
-  font-size: small;
-  text-align: left;
-}
-
 #replying {
   padding-left: 10px;
-  font-size: small;
-  color: gray;
-  z-index: 4;
 }
 
-#profile-pic {
-  background-color: white;
-  height:50px;
-  width:50px;
-  object-fit: cover;
-  border-radius:50%;
+#note-pic {
   margin-right: 10px;
-  flex-shrink: 0;
 }
 
 #content-image {
