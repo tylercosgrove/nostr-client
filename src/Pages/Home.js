@@ -3,11 +3,13 @@ import {useState, useEffect, useContext} from "react";
 import { BiCopy } from "react-icons/bi";
 import Note from '../Components/Note';
 import { useNavigate } from 'react-router-dom';
-import { RelayContext } from "../Extras/UserContext";
+import { RelayContext,UserContext } from "../Extras/UserContext";
 import CustomHeader from "../Components/CustomHeader";
+import NewNote from "../Components/NewNote";
 
 const Home = () => {
 
+    const {user, setUser} = useContext(UserContext);
     const {relays} = useContext(RelayContext);
     const [notes, setNotes] = useState([]);
     let hasLoadedNew = false;
@@ -90,7 +92,7 @@ const Home = () => {
     }
     const noteComponents = getSorted().map(item => <Note key={item.id} relays={item.relays} note={item.note}/>);
 
-      
+    
   
     return (
       <>
@@ -100,8 +102,11 @@ const Home = () => {
             <h1>nostr client</h1>
             <p>public chat: {notes.length}</p>
           </div>}/>
-  
-        <div id="content">{noteComponents}</div>
+        
+        <div id="content">
+          <NewNote/>
+          {noteComponents}
+        </div>
       </>
     );
 }

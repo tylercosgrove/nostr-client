@@ -105,6 +105,10 @@
     text-align: left;
 }
 
+.right {
+    text-align: right;
+}
+
 .wrap {
     word-break: break-word;
     white-space: pre-line;
