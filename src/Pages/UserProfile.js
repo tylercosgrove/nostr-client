@@ -19,8 +19,8 @@ const UserProfile = () => {
 
     const [pubkey, setPubkey] = useState("");
     const [privkey, setPrivkey] = useState("");
-
     const [newMeta, setNewMeta] = useState({});
+    const [viewingKeys, setViewing] = useState(false);
 
     useEffect(()=> {
         if(user == null || Object.keys(user).length === 0) {
@@ -53,7 +53,7 @@ const UserProfile = () => {
             const [ type, subId, message ] = JSON.parse( event.data );
             const {content} = message || {}
             if(message != null ){//&& user.meta == null) {
-                if(!shallowEqual(user.meta, JSON.parse(content))){
+                if(user.meta == null || !shallowEqual(user.meta, JSON.parse(content))){
                     const userObj = {...user, "meta":JSON.parse(content)};
                     setUser(userObj);
                     localStorage.setItem('context', JSON.stringify(userObj));
@@ -181,6 +181,32 @@ const UserProfile = () => {
         }
     }
 
+    const logOut = () => {
+        setUser({});
+        localStorage.clear();
+    }
+
+    const showKeys = () => {
+        return viewingKeys ? <>
+            <div id="overlay" onClick={()=>{
+                setViewing(false);
+            }}>
+            </div>
+            <div id="key-container">
+                <div id="key-title-container">
+                    <p class="bold larger-text">Your keys:</p>
+                    <p class="link default-link" onClick={()=>{
+                        setViewing(false);
+                    }}>Close</p>
+                </div>
+                <p class="small-text">NEVER share your private key, and make sure you have it backed up elsewhere.</p>
+                <p class="small-text">Public key:</p>
+                <input class="display-key" disabled value={user.pubkey} />
+                <p class="small-text">Private key:</p>
+                <input class="display-key" disabled value={user.privkey} />
+            </div> 
+        </> : <></>;
+    }
 
 
     return (
@@ -212,9 +238,11 @@ const UserProfile = () => {
                     </div>
                 </> : 
                 <>  
+                    {showKeys()}
                     <div class="card">
-                    <img class="profile-pic extra-large-pic" src={getPicture()} alt="Image error" onError={replaceImage} />
+                        <img class="profile-pic extra-large-pic" src={getPicture()} alt="Image error" onError={replaceImage} />
                         <p>{getName()}</p>
+                        <p class="gray small-text">{user.pubkey}</p>
                         <p>{getAbout()}</p>
                     </div>
 
@@ -227,18 +255,12 @@ const UserProfile = () => {
                     </div>
                         <button class="classic-button" onClick={updateMeta}>Save</button>
     
-
-                    <p>Public key: {user.pubkey}</p>
-                    <p>Private key: {user.privkey}</p>
-                    <button onClick={() => {
-                        const storedContext = localStorage.getItem('context');
-                        if (storedContext) {
-                            console.log(JSON.parse(storedContext));
-                        }
-                    }}>Click me</button>
-
-
-                    <button class="classic-button">Logout</button>
+                    <div id="button-container">
+                        <button id="view-keys" class="classic-button" onClick={() => {
+                            setViewing(true);
+                        }}>View keys</button>
+                        <button id="logout" class="classic-button" onClick={logOut}>Logout</button>
+                    </div>
                 </>
                 }
             </div>

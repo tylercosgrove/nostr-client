@@ -75,6 +75,14 @@
 
 
 /* Links */
+.default-link {
+    color:steelblue;
+}
+
+.default-link:hover {
+    color: blue;
+}
+
 .link:hover {
     cursor: pointer;
     text-decoration: underline;

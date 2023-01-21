@@ -31,7 +31,7 @@ const Profile = () => {
     const getNotes = (socket) => {
         const ws = new WebSocket(socket);
         ws.onopen = (event) => {
-            const filter = {"limit": 100,"authors":[author]};//"kinds":[1],
+            const filter = {"kinds":[1],"limit": 100,"authors":[author]};
             const subscription = ["REQ", "my-sub", filter];
             ws.send(JSON.stringify(subscription));
         };
