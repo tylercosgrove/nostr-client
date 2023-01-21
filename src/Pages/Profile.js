@@ -31,7 +31,7 @@ const Profile = () => {
     const getNotes = (socket) => {
         const ws = new WebSocket(socket);
         ws.onopen = (event) => {
-            const filter = {"kinds":[1], "limit": 100,"authors":[author]};
+            const filter = {"limit": 100,"authors":[author]};//"kinds":[1],
             const subscription = ["REQ", "my-sub", filter];
             ws.send(JSON.stringify(subscription));
         };
@@ -40,6 +40,7 @@ const Profile = () => {
           var [ type, subId, message ] = JSON.parse( event.data );
           if(message != null && !all_notes.has(message.id)) {
             all_notes.add(message.id);
+            console.log(message);
             setReplies(replies => [...replies, { note:message, relays:relays, meta:metaData, id:message.id}]);
           }
         };
@@ -48,6 +49,8 @@ const Profile = () => {
         ws.close();
       };
     }
+    //"b8cfd530b1616a5d1d23425736936da743470da5a19d978245211dd044dc7bdff429279f665f73addb55704a0d3be2b7623037d050f0aed2100cce3e2159145f"
+    //"c8097f914ffd23a5de980745b02313d1429fc03df05b213fe6cfaea09ec7b2757dc319da6788ae3617ab2088c501d0c3e7c78da00a1f847589e6143eecd80713"
     
     
     

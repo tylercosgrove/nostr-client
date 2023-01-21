@@ -6,6 +6,8 @@ import '../Styles/UserProfile.css';
 import * as elliptic from 'elliptic';
 import { sha256 } from "js-sha256";
 import '../Styles/Default.css';
+import * as secp from '@noble/secp256k1';
+
  
 
 
@@ -18,6 +20,8 @@ const UserProfile = () => {
     const [pubkey, setPubkey] = useState("");
     const [privkey, setPrivkey] = useState("");
 
+    const [newMeta, setNewMeta] = useState({});
+
     useEffect(()=> {
         if(user == null || Object.keys(user).length === 0) {
             //console.log("null");
@@ -29,7 +33,8 @@ const UserProfile = () => {
     });
 
     useEffect(() => {
-        if(user && user.meta==null && user.pubkey != null) {
+        
+        if(user && user.pubkey != null) {
             relays.forEach(relay => {
                 getMetaData(relay, user.pubkey);
             });
@@ -47,13 +52,17 @@ const UserProfile = () => {
         ws.onmessage = function (event) {
             const [ type, subId, message ] = JSON.parse( event.data );
             const {content} = message || {}
-            if(message != null && user.meta == null) {
-                const userObj = {...user, "meta":JSON.parse(content)};
-                setUser(userObj);
-                localStorage.setItem('context', JSON.stringify(userObj));
-                console.log(JSON.parse(content));
+            if(message != null ){//&& user.meta == null) {
+                if(!shallowEqual(user.meta, JSON.parse(content))){
+                    const userObj = {...user, "meta":JSON.parse(content)};
+                    setUser(userObj);
+                    localStorage.setItem('context', JSON.stringify(userObj));
+                    //console.log(JSON.parse(content));
+                    console.log("new metaData!!!!1");
+                }
                 ws.close();
                 return;
+                
             }
         }
 
@@ -61,6 +70,20 @@ const UserProfile = () => {
             ws.close();
         }
     }
+
+    function shallowEqual(object1, object2) {
+        const keys1 = Object.keys(object1);
+        const keys2 = Object.keys(object2);
+        if (keys1.length !== keys2.length) {
+          return false;
+        }
+        for (let key of keys1) {
+          if (object1[key] !== object2[key]) {
+            return false;
+          }
+        }
+        return true;
+      }
 
 
     const logIn = () => {
@@ -119,6 +142,46 @@ const UserProfile = () => {
         error.target.src = 'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg'; 
     }
 
+    const updateMeta = async () => {
+        const currUserMeta = { ...user.meta, ...newMeta }
+        const keypair = ec.keyFromPrivate(user.privkey, 'hex');
+
+        var event = {
+            "content"    : JSON.stringify(currUserMeta),
+            "created_at" : Math.floor( Date.now() / 1000 ),
+            "kind"       : 0,
+            "tags"       : [],
+            "pubkey"     : user.pubkey,
+        }
+
+        var eventData = JSON.stringify([
+            0,
+            event['pubkey'],
+            event['created_at'],
+            event['kind'],
+            event['tags'],
+            event['content']
+        ])
+
+        event.id  = sha256( eventData ).toString( 'hex' );
+        const signature2 = await secp.schnorr.sign(event.id, user.privkey);
+        event.sig = secp.utils.bytesToHex(signature2);
+
+        relays.forEach(relay => {
+            sendEvent(relay, event);
+        });
+    }
+
+
+    const sendEvent = (socket, eventData) => {
+        const ws = new WebSocket(socket);
+        ws.onopen = (event) => {
+            ws.send(JSON.stringify(["EVENT",eventData]));
+            ws.close();
+        }
+    }
+
+
 
     return (
         <>
@@ -155,8 +218,15 @@ const UserProfile = () => {
                         <p>{getAbout()}</p>
                     </div>
 
+                    <div id="update-fields">
+                        <input type="text" placeholder="Name" value={newMeta.name} onChange={(e) => setNewMeta({...newMeta, "name":e.target.value})}/>
+                        
+                        <input type="text" placeholder="About" value={newMeta.about} onChange={(e) => setNewMeta({...newMeta, "about":e.target.value})}/>
 
-
+                        <input type="text" placeholder="Picture URL" value={newMeta.picture} onChange={(e) => setNewMeta({...newMeta, "picture":e.target.value})}/>
+                    </div>
+                        <button class="classic-button" onClick={updateMeta}>Save</button>
+    
 
                     <p>Public key: {user.pubkey}</p>
                     <p>Private key: {user.privkey}</p>

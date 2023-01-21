@@ -7,6 +7,11 @@
     flex-direction: column;
 }
 
+#update-fields {
+    display: flex;
+    flex-direction: column;
+}
+
 #generate-key {
     font-size: small;
     border:none;
@@ -21,6 +26,22 @@
 #generate-key:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+#update-fields > label {
+    margin-top: 10px;
+    font-size: small;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+#update-fields > input[type=text] {
+    font-size: large;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    border: 1px #ebebeb solid;
+    width: 50%;
 }
 
 #login-form > label {

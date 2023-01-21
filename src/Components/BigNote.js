@@ -120,7 +120,7 @@ const BigNote = ({note, relays}) => {
     const getReplyTo = () => {
         for(const tag of note.tags) {
             if(tag[0]==='e'){
-              return <p id="replying-big">replying to <span id="other-user" onClick={() => {
+              return <p id="replying-big">replying to <span class="highlight link" onClick={() => {
                   navigate('/posts/' + tag[1]);
                   //navigate(0);
               }} >{tag[1].substring(0,14)}...</span></p>;
