@@ -80,6 +80,7 @@ const Note = ({note, relays, meta}) => {
               return <p class="small-text gray" id="replying">replying to <span class="link highlight" onClick={(event) => {
                     event.stopPropagation();
                   navigate('/posts/' + tag[1]);
+                  navigate(0);
               }} >{tag[1].substring(0,14)}...</span></p>;
             }
         }
@@ -91,6 +92,7 @@ const Note = ({note, relays, meta}) => {
             return <><span class="medium-text bold link" onClick={(event)=> {
                 event.stopPropagation();
                 navigate('/users/' + note.pubkey);
+                navigate(0);
             }}>{metaData.name}</span>  <span class="small-text gray">{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={(event) => {
                 event.stopPropagation();
                 navigator.clipboard.writeText(note.pubkey)
@@ -98,6 +100,7 @@ const Note = ({note, relays, meta}) => {
         } else {
             return <><span class="medium-text bold link" onClick={()=> {
                 navigate('/users/' + note.pubkey);
+                navigate(0);
             }}>{note.pubkey.substring(0,14)}...</span> <BiCopy id="copy-button" onClick={(event) => {
                 event.stopPropagation();
                 navigator.clipboard.writeText(note.pubkey)
@@ -140,6 +143,7 @@ const Note = ({note, relays, meta}) => {
                     //localStorage.setItem('context', JSON.stringify(context));
                     event.stopPropagation();
                     navigate('/users/' + mention_pubkey);
+                    navigate(0);
                     //navigate(0);
                   }}>{mention_pubkey.substring(0,14)}...</span>;
                 }
@@ -175,7 +179,7 @@ const Note = ({note, relays, meta}) => {
         <>
             <div class="card" id="message-container"  onClick={()=> {
                 navigate('/posts/' + note.id);
-                //navigate(0);
+                navigate(0);
             }}>
                 <img id="note-pic" class="profile-pic small-pic" src={getPicture(metaData)} alt="Image error" onError={replaceImage} />
                 <div>

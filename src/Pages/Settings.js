@@ -1,18 +1,53 @@
-import {useState, useEffect, React} from "react";
+import {useState, useEffect, useContext, React} from "react";
 import '../Styles/App.css';
 import { useParams, useNavigate } from "react-router-dom";
 import '../Styles/Profile.css';
-import Note from "../Components/Note";
-import { BiCopy } from "react-icons/bi";
-import { Tooltip } from 'react-tooltip';
 import CustomHeader from "../Components/CustomHeader";
+import { RelayContext } from "../Extras/UserContext";
+
 
 
 const Settings = () => {
 
+    const {relays, setRelays} = useContext(RelayContext);
+    const [newRelay, setNewRelay] = useState("");
+
+
+    useEffect(() => {
+        console.log(localStorage.getItem('relays'));
+        setRelays(JSON.parse(localStorage.getItem('relays')));
+    },[]);
+
+
+    const addRelay = () => {
+        localStorage.setItem('relays', JSON.stringify([...relays, newRelay]));
+        setRelays(relays => [...relays, newRelay]);
+    }
+
+    const closeRelay = (toRemove) => {
+        localStorage.setItem('relays', JSON.stringify(relays.filter(relay => relay != toRemove)));
+        setRelays(relays.filter(relay => relay != toRemove));
+    }
+
+    const allRelays = relays.map(relay => {
+        return <div class="relay large-text">{relay} <span class="small-text link default-link" onClick={() => {
+            closeRelay(relay);
+        }}>Close</span></div>;
+    });
+
     return (
         <>
             <CustomHeader title={<h1>Settings</h1>}/>
+
+            <div id="content">
+                <p class="larger-text">Your relays:</p>
+                {allRelays}
+
+                <div id="new-relay">
+                    <input type="text" placeholder="Relay" value={newRelay} onChange={(e) => setNewRelay(e.target.value)}/>
+                    <button class="classic-button wide" onClick={addRelay}>Add</button>
+                </div>
+            </div>
         </>
     );
 }

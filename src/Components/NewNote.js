@@ -9,7 +9,7 @@ import { sha256 } from "js-sha256";
 import * as secp from '@noble/secp256k1';
 
 
-const NewNote = () => {
+const NewNote = ({replyingTo}) => {
 
     const {relays} = useContext(RelayContext);
     const {user, setUser} = useContext(UserContext);
@@ -19,6 +19,15 @@ const NewNote = () => {
 
 
     useAutosizeTextArea(textAreaRef.current, value);
+
+    useEffect(()=>{
+        if(Object.keys(user).length === 0) {
+            const storedContext = localStorage.getItem('context');
+            if (storedContext) {
+                setUser(JSON.parse(storedContext));
+            }
+        }
+    });
 
     const handleChange = (event) => {
         const val = event.target?.value;
@@ -58,7 +67,7 @@ const NewNote = () => {
             "content"    : value,
             "created_at" : Math.floor( Date.now() / 1000 ),
             "kind"       : 1,
-            "tags"       : [],
+            "tags"       : replyingTo==null ? [] : [["e",replyingTo]],
             "pubkey"     : user.pubkey,
         }
 
@@ -89,6 +98,12 @@ const NewNote = () => {
         }
     }
 
+    const getReplyTo = () => {
+        if(replyingTo != null) {
+            return <p class="small-text gray" id="replying">replying to <span class="link highlight" >{replyingTo.substring(0,14)}...</span></p>;
+        }   
+    }
+
 
     return (
         <>
@@ -101,6 +116,7 @@ const NewNote = () => {
               <img id="note-pic" class="profile-pic small-pic" src={getPicture()} alt="Image error" onError={replaceImage} />
               <div id="main-new-note-area">
                 <p>{getName()}</p>
+                <p>{getReplyTo()}</p>
                 <textarea id="new-note" onChange={handleChange} placeholder="What's happening?" rows={1} value={value} ref={textAreaRef}/>
 
                 <button id="publish-button" class="classic-button" onClick={publish}>Publish</button>

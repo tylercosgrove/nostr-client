@@ -14,6 +14,10 @@
     text-decoration: underline;
 }
 
+.wide {
+    width: 6rem;
+}
+
 
 /* Circular profile pics */
 .profile-pic {
@@ -92,6 +96,7 @@
 .gray {
     color:gray;
 }
+
 
 .highlight {
     color: orange;

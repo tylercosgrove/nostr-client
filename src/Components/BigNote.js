@@ -64,6 +64,7 @@ const BigNote = ({note, relays}) => {
         return <div id="note-name-big">
             <span id="author-big" onClick={()=> {
                 navigate('/users/' + note.pubkey);
+                navigate(0);
             }}>{metaData.name}</span>
             <div><span id="pubkey-big">{note.pubkey.substring(0,14)}...</span><BiCopy id="copy-button" onClick={() => {navigator.clipboard.writeText(note.pubkey)}}/></div>
         </div>;
@@ -71,6 +72,7 @@ const BigNote = ({note, relays}) => {
         return <div id="note-name-big">
             <span id="author-big" onClick={()=> {
                 navigate('/users/' + note.pubkey);
+                navigate(0);
             }}>{note.pubkey.substring(0,14)}...</span>
         </div>;
         }
@@ -88,6 +90,7 @@ const BigNote = ({note, relays}) => {
                 if (word == "") {
                   return <span id="other-user" onClick={() => {
                     navigate('/users/' + mention_pubkey);
+                    navigate(0);
                   }}>{mention_pubkey.substring(0,14)}...</span>;
                 }
                 return word;
@@ -122,7 +125,7 @@ const BigNote = ({note, relays}) => {
             if(tag[0]==='e'){
               return <p id="replying-big">replying to <span class="highlight link" onClick={() => {
                   navigate('/posts/' + tag[1]);
-                  //navigate(0);
+                  navigate(0);
               }} >{tag[1].substring(0,14)}...</span></p>;
             }
         }

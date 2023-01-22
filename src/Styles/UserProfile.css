@@ -2,7 +2,13 @@
     color: gray;
 }
 
+#save-button {
+    margin-top: 15px;
+    width: 8rem;
+}
+
 #login-form {
+    margin-top: 20px;
     display:flex;
     flex-direction: column;
 }
@@ -29,7 +35,7 @@
 }
 
 #overlay {
-    transition: cubic-bezier(1, 0, 0, 1);
+    transition: display 0.4s ease-in-out;/*cubic-bezier(1, 0, 0, 1);*/
     position: fixed;
     width: 100%;
     height: 100%;
@@ -70,6 +76,8 @@
 #update-fields {
     display: flex;
     flex-direction: column;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #view-keys {
@@ -100,16 +108,21 @@
     margin-top: 10px;
     font-size: small;
     padding-left: 10px;
-    padding-bottom: 5px;
+    padding-bottom: 0px;
 }
 
 #update-fields > input[type=text] {
     font-size: large;
     padding: 8px;
     margin-bottom: 5px;
-    border-radius: 8px;
-    border: 1px #ebebeb solid;
-    width: 50%;
+    border: none;
+    border-bottom: 2px solid lightgray;
+}
+
+#update-fields > input[type=text]:focus {
+    outline: none;
+    border-bottom: 2px solid gray;
+    background-color: aliceblue;
 }
 
 #login-form > label {
@@ -121,10 +134,15 @@
 
 #login-form > input[type=text] {
     border: none;
+    border-bottom: 2px solid lightgray;
     font-size: large;
     padding: 10px;
-    border-radius: 8px;
-    background-color: #ebebeb;
+}
+
+#login-form > input[type=text]:focus {
+    background-color: aliceblue;
+    outline: none;
+    border-bottom: 2px solid gray;
 }
 
 #login-form > input[type=submit] {

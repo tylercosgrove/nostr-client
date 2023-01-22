@@ -89,3 +89,34 @@ textarea {
   margin-left: auto;
   float: right;
 }
+
+.relay {
+  background-color: aliceblue;
+  margin: 5px;
+  border-radius: 0px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#new-relay {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+}
+
+#new-relay > input[type=text] {
+  border:none;
+  border-bottom: 2px solid lightgray;
+  font-size: large;
+  padding: 8px;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+#new-relay > input[type=text]:focus {
+  outline: none;
+  border-bottom: 2px solid gray;
+  background-color: aliceblue;
+}

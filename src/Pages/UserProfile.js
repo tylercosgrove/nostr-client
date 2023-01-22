@@ -7,8 +7,8 @@ import * as elliptic from 'elliptic';
 import { sha256 } from "js-sha256";
 import '../Styles/Default.css';
 import * as secp from '@noble/secp256k1';
-
- 
+import { MdEdit } from "react-icons/md";
+import { getNodeText } from "@testing-library/react";
 
 
 const UserProfile = () => {
@@ -219,8 +219,8 @@ const UserProfile = () => {
                     <p>You are not logged in.</p> 
 
                     <div id="login-form">
-                        <label>Public Key:</label>
-                        <input type="text" value={pubkey} onChange={(e) => {
+                        <label>Public key:</label>
+                        <input placeholder="Public key" type="text" value={pubkey} onChange={(e) => {
                             setPubkey(e.target.value);
                             
                         }}/>
@@ -229,8 +229,8 @@ const UserProfile = () => {
                         }}>Generate keys</button>
                         
 
-                        <label>Private Key:</label>
-                        <input type="text" value={privkey} onChange={(e) => setPrivkey(e.target.value)}/>
+                        <label>Private key:</label>
+                        <input placeholder="Private key" type="text" value={privkey} onChange={(e) => setPrivkey(e.target.value)}/>
                         
                         <input type="submit" value="Login" onClick={() => {
                             logIn();
@@ -247,13 +247,18 @@ const UserProfile = () => {
                     </div>
 
                     <div id="update-fields">
-                        <input type="text" placeholder="Name" value={newMeta.name} onChange={(e) => setNewMeta({...newMeta, "name":e.target.value})}/>
+                        <label>Name</label>
+                        <input type="text" placeholder="Name" defaultValue={user.meta ? user.meta.name : ""} onChange={(e) => setNewMeta({...newMeta, "name":e.target.value})}/>
                         
-                        <input type="text" placeholder="About" value={newMeta.about} onChange={(e) => setNewMeta({...newMeta, "about":e.target.value})}/>
+                        <label>About</label>
+                        <input type="text" placeholder="About" defaultValue={user.meta ? user.meta.about : ""} onChange={(e) => setNewMeta({...newMeta, "about":e.target.value})}/>
 
-                        <input type="text" placeholder="Picture URL" value={newMeta.picture} onChange={(e) => setNewMeta({...newMeta, "picture":e.target.value})}/>
+                        <label>Picture URL</label>
+                        <input type="text" placeholder="Picture URL" defaultValue={user.meta ? user.meta.picture : ""} onChange={(e) => setNewMeta({...newMeta, "picture":e.target.value})}/>
+                        
+                        <button id="save-button" class="classic-button" onClick={updateMeta}>Save</button>
                     </div>
-                        <button class="classic-button" onClick={updateMeta}>Save</button>
+                    
     
                     <div id="button-container">
                         <button id="view-keys" class="classic-button" onClick={() => {

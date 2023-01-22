@@ -6,6 +6,7 @@ import Note from "../Components/Note";
 import { flushSync } from "react-dom";
 import { RelayContext } from "../Extras/UserContext";
 import CustomHeader from "../Components/CustomHeader";
+import NewNote from "../Components/NewNote";
 
 const SingleEvent = () => {
 
@@ -90,6 +91,7 @@ const SingleEvent = () => {
           if(message != null && !all_replies.has(message.id)) {
             if(all_replies.size < notesPerLoad) {
               all_replies.add(message.id);
+              console.log(message);
               setReplies(replies => [...replies, { note:message, relays:relays, id:message.id}]);
             } else {
               for (let i = 0; i < sockets.length; i++) {
@@ -118,8 +120,11 @@ const SingleEvent = () => {
         <>
         <CustomHeader title={<h1>Post</h1>}/>
 
-        <div id="content">{note}</div>
-        <div id="content">{replyComponents}</div>
+        <div id="content">
+          {note}
+          <NewNote replyingTo={event_id}/>
+          {replyComponents}
+        </div>
 
         </>
     );
