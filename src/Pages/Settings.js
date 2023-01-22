@@ -14,8 +14,12 @@ const Settings = () => {
 
 
     useEffect(() => {
-        console.log(localStorage.getItem('relays'));
-        setRelays(JSON.parse(localStorage.getItem('relays')));
+        //console.log(localStorage.getItem('relays'));
+        const storedContext = localStorage.getItem('relays');
+        if (storedContext) {
+            setRelays(JSON.parse(storedContext));
+        }
+        //setRelays(JSON.parse(localStorage.getItem('relays')));
     },[]);
 
 
