@@ -22,10 +22,20 @@ const Settings = () => {
         //setRelays(JSON.parse(localStorage.getItem('relays')));
     },[]);
 
+    function isValidWebSocketUrl(url) {
+        try {
+          const ws = new WebSocket(url);
+          return true;
+        } catch (err) {
+          return false;
+        }
+      }
 
     const addRelay = () => {
-        localStorage.setItem('relays', JSON.stringify([...relays, newRelay]));
-        setRelays(relays => [...relays, newRelay]);
+        if(isValidWebSocketUrl(newRelay)) {
+            localStorage.setItem('relays', JSON.stringify([...relays, newRelay]));
+            setRelays(relays => [...relays, newRelay]);
+        }
     }
 
     const closeRelay = (toRemove) => {
