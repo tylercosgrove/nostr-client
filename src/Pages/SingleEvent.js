@@ -91,7 +91,7 @@ const SingleEvent = () => {
           if(message != null && !all_replies.has(message.id)) {
             if(all_replies.size < notesPerLoad) {
               all_replies.add(message.id);
-              console.log(message);
+              //console.log(message);
               setReplies(replies => [...replies, { note:message, relays:relays, id:message.id}]);
             } else {
               for (let i = 0; i < sockets.length; i++) {

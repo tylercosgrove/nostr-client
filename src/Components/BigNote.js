@@ -84,7 +84,7 @@ const BigNote = ({note, relays}) => {
         if (match) {
             const mention_pubkey = note.tags[parseInt(match[1])][1];
             const words = input.split(/#\[\d+\]/);
-            console.log(words);
+            //console.log(words);
             const content = words.map((word) => {
                 
                 if (word == "") {
