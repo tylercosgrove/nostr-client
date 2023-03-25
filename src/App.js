@@ -14,11 +14,9 @@ function App() {
   
   const [relays, setRelays] = useState([
     "wss://nostr-pub.wellorder.net",
-    //"wss://expensive-relay.fiatjaf.com",
-    //"wss://nostr-relay.untethr.me",
     "wss://relay.damus.io",
+    "wss://nostr.wine",
     "wss://nostr-verified.wellorder.net",
-    "wss://relay.nostr.ch",
     "wss://nostr.developer.li"
   ]);
 
